@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .payment-section {
+            max-width: 600px;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .payment-methods img {
+            width: 60px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+            background-color: #fff;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .other-payment {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .other-payment img {
+            width: 40px;
+            margin-right: 10px;
+        }
+
+        .other-payment:hover {
+            background-color: #f0f0f0;
+        }
+        .payment-icon {
+            width: 80px;
+            height: auto;
+            margin: 5px; 
+}
+    </style>
+</head>
+<body>
+    <dic class="container mt-5">
+        <h1 class="text-center">Payment</h1>
+        <h3 class="text-center">Total Price: RM {{ total_price }}</h3>
+        <div class="payment-section">
+            <form method="POST" class="mt-4">
+                <h4>Choose a Payment Method</h4>
+                <div class="radio-option">
+                    <input type="radio" id="visa" name="payment_method" value="visa" required>
+                    <label for="visa">
+                        <img src="{{ url_for('static', filename='images/visa mastercard.png') }}" alt="Visa" class="payment-icon">
+                    </label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="bank" name="payment_method" value="bank" required>
+                    <label for="bank" class="d-flex align-items-center">
+                        <img src="{{ url_for('static', filename='images/fpx-logo.jpg') }}" alt="Bank Payment" class="payment-icon">
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-success w-100 mt-4">Pay Now</button>
+            </form>
+        </div>
+    </dic>
+</body>
+</html>

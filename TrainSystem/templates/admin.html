@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script>
+        // Function to show customers for a specific train
+        function showCustomers(trainId) {
+            // Hide all customer tables first
+            document.querySelectorAll('.customer-table').forEach(table => {
+                table.style.display = 'none';
+            });
+            // Show the selected customer table
+            const selectedTable = document.getElementById(`customer-table-${trainId}`);
+            if (selectedTable) {
+                selectedTable.style.display = 'table';
+            }
+        }
+    </script>
+</head>
+<body>
+    <br>
+    <div class="container mt-5">
+        <h1 class="text-center">Admin Panel</h1>
+        <h2 class="mt-4">Add Train</h2>
+        <form method="POST" class="mt-4">
+            <div class="mb-3">
+                <label for="name" class="form-label">Train Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="origin" class="form-label">Origin:</label>
+                <input type="text" class="form-control" id="origin" name="origin" required>
+            </div>
+            <div class="mb-3">
+                <label for="destination" class="form-label">Destination:</label>
+                <input type="text" class="form-control" id="destination" name="destination" required>
+            </div>
+            <div class="mb-3">
+                <label for="date" class="form-label">Date:</label>
+                <input type="date" class="form-control" id="date" name="date" required>
+            </div>
+            <div class="mb-3">
+                <label for="time" class="form-label">Time:</label>
+                <input type="time" class="form-control" id="time" name="time" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Train</button>
+        </form>
+
+        <h2 class="mt-5">Trains</h2>
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Origin</th>
+                    <th>Destination</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for train in trains %}
+                <tr>
+                    <td>{{ train.name }}</td>
+                    <td>{{ train.origin }}</td>
+                    <td>{{ train.destination }}</td>
+                    <td>{{ train.date }}</td>
+                    <td>{{ train.time }}</td>
+                    <td>
+                        <button class="btn btn-info" onclick="showCustomers('{{ train.id }}')">View Customers</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% for train in trains %}
+        <div id="customer-table-{{ train.id }}" class="customer-table mt-4" style="display: none;">
+            <h3>Customers for Train: {{ train.name }}</h3>
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>No IC</th>
+                        <th>Seat Codes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for customer in customers %}
+                    {% if customer.ticket_id == train.id %}
+                    <tr>
+                        <td>{{ customer.name }}</td>
+                        <td>{{ customer.email }}</td>
+                        <td>{{ customer.no_ic }}</td>
+                        <td>{{ customer.seat_code }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
